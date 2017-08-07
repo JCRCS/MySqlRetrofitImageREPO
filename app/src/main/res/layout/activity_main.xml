@@ -8,8 +8,8 @@
     tools:context="com.example.sanros.mysqlretrofitimagerepo.MainActivity">
 
     <ImageView
-        android:layout_width="300dp"
-        android:layout_height="250dp"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:id="@+id/imageView"
@@ -18,7 +18,7 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="50dp"
         android:layout_below="@id/imageView"
         android:hint="Enter Image Title"
         android:layout_marginTop="20dp"

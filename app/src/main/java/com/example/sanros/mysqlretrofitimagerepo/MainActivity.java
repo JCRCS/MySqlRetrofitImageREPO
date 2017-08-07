@@ -70,10 +70,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             {
                 bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(),path);
                 Img.setImageBitmap(bitmap);
-                Img.setVisibility(View.VISIBLE);
-                Img_title.setVisibility(View.VISIBLE);
                 BnChoose.setEnabled(false);
                 BnUpload.setEnabled(true);
+                Img.setVisibility(View.VISIBLE);
+                Img_title.setVisibility(View.VISIBLE);
 
             }
             catch (IOException e)
