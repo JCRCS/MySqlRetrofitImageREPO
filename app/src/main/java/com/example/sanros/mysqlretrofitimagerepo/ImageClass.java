@@ -18,10 +18,7 @@ public class ImageClass {
     @SerializedName("response")
     private String Response;
 
-    public String getResponse()
-    {
+    public String getResponse() {
         return Response;
     }
-
-
 }

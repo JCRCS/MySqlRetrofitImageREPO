@@ -6,12 +6,19 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -45,10 +52,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 selectImage();
                 break;
             case R.id.uploadBn:
+                uploadImage();
                 break;
 
         }
 
+    }
+
+    private void uploadImage()
+    {
+        String Image = imageToString();
+        String Title = Img_title.getText().toString();
+        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        Call<ImageClass> call = apiInterface.uploadImage(Title,Image);
+
+        call.enqueue(new Callback<ImageClass>() {
+            @Override
+            public void onResponse(Call<ImageClass> call, Response<ImageClass> response) {
+
+                ImageClass imageClass = response.body();
+                Toast.makeText(MainActivity.this,"Server Response: "+imageClass.getResponse(),Toast.LENGTH_LONG).show();
+                Img.setVisibility(View.GONE);
+                Img_title.setVisibility(View.GONE);
+                BnChoose.setEnabled(true);
+                BnUpload.setEnabled(false);
+                Img_title.setText("");
+
+            }
+
+            @Override
+            public void onFailure(Call<ImageClass> call, Throwable t) {
+
+                Toast.makeText(MainActivity.this,"Server Response: holaaa holaaa",Toast.LENGTH_LONG).show();
+                Img.setVisibility(View.GONE);
+                Img_title.setVisibility(View.GONE);
+                BnChoose.setEnabled(true);
+                BnUpload.setEnabled(false);
+                Img_title.setText("");
+            }
+        });
     }
 
     private void selectImage()
@@ -83,5 +125,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
+    private String imageToString()
+    {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
+        byte[] imgByte = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(imgByte,Base64.DEFAULT);
+
+    }
 
 }
